@@ -35,8 +35,11 @@ This project defines a new pytest-play_ command:
     {
      'provider': 'play_cassandra'
      'type': 'execute',
-     'cluster': ['10.1.1.3', '10.1.1.4', '10.1.1.5'],
-     'port': '9042',
+     'connection': {
+       'contact_points': ['10.1.1.3', '10.1.1.4', '10.1.1.5'],
+       'port': '9042',
+       'auth_provider': {'username': '$username', 'password': '$password'}
+     },
      'keyspace': 'users',
      'query': 'SELECT name, age, email FROM users WHERE user_id=15',
      'condition': '1 > 0',
