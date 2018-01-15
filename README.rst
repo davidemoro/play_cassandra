@@ -32,9 +32,18 @@ This project defines a new pytest-play_ command:
 
 ::
 
-    {'type': 'print', 'provider': 'play_cassandra'}
-
-You can add more commands adding new methods to the command provider implementation in ``providers.py`` module.
+    {
+     'provider': 'play_cassandra'
+     'type': 'execute',
+     'cluster': ['10.1.1.3', '10.1.1.4', '10.1.1.5'],
+     'port': '9042',
+     'keyspace': 'users',
+     'query': 'SELECT name, age, email FROM users WHERE user_id=15',
+     'condition': '1 > 0',
+     'variable': 'user1_age',
+     'variable_expression': 'results[0].age',
+     'assertion': 'results[0].name == "User 1"'
+    }
 
 Twitter
 =======

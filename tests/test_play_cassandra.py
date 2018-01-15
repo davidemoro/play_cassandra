@@ -6,9 +6,9 @@
 
 def test_provider():
     from play_cassandra import providers
-    print_provider = providers.NewProvider(None)
-    assert print_provider.engine is None
-    print_provider.command_print(
+    provider = providers.CassandraProvider(None)
+    assert provider.engine is None
+    provider.command_execute(
         {'provider': 'play_cassandra',
-         'type': 'print',
+         'type': 'execute',
          'message': 'Hello, World!'})

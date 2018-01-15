@@ -36,7 +36,7 @@ setup(
     packages=find_packages(include=['play_cassandra']),
     entry_points={
         'playcommands': [
-            'print = play_cassandra.providers:NewProvider',
+            'play_cassandra = play_cassandra.providers:CassandraProvider',
         ],
     },
     include_package_data=True,

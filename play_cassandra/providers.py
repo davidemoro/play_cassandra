@@ -1,11 +1,8 @@
 from pytest_play.providers import BaseProvider
 
 
-class NewProvider(BaseProvider):
-    """ Print provider """
+class CassandraProvider(BaseProvider):
+    """ Cassandra provider """
 
-    def command_print(self, command, **kwargs):
-        print(command['message'])
-
-    def command_yetAnotherCommand(self, command, **kwargs):
-        pass
+    def command_execute(self, command, **kwargs):
+        print(command)
