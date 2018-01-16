@@ -1,27 +1,18 @@
-# Config file for automatic testing at travis-ci.org
-
 language: python
 python:
-  - 3.6
-
-# command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
+- 3.6
 install:
-  - pip install codecov
-  - pip install -U tox-travis
-
-# command to run tests, e.g. python setup.py test
+- pip install codecov
+- pip install -U tox-travis
 script: tox
 after_success:
 - codecov
-
-# After you create the Github repo and add it to Travis, run the
-# travis_pypi_setup.py script to finish PyPI deployment setup
 deploy:
   provider: pypi
   distributions: sdist bdist_wheel
   user: davidemoro
   password:
-    secure: PLEASE_REPLACE_ME
+    secure: XEdwed0wBOyx3ttcLN3L3YGpGm16yEdQLO7Q5u/S3ea5gaJ1xxP8daenvmV6mXTQ/C4Y0yufX41VwwXRN61/WqX8BBvQxHc/X0nswxADLTWxS1d6pldl11qkIr9e9Op7miYLF91WGRCh0osxUeCLYexIidqyob6t5RH9m81QB2/i9X7o5AXdw6ZmgN7l+JiHH5EnAqRWa84mwbyIizUjfLN6yDcGacsU97jH39exzjFXadrt8jIpcf5aD9n59Y+ZgYepggtk3ofvGB/CjHBY2sakEWGKy42wGhPRty166B/0SeUckChHfk1WFcG7a0O0I/33uaACEEkShffvnv8vVjEY4XAR7avXmQcYC7h9rCgm9E0hpS5Q+noUzLR2WwHV7BbiAdIUvhgyPD6b6bdWdafhFcn4ltBUUTU5jB1OJWYGWhhFLgypOBz1Y1f8m3wHy8fZfRAOQ2Vowf4e94bPsxhnbtYmbRycjQl2p/4QXneaYMvRrY+SkwDV65RWhUzOQGNH9zqljZCn2USGbu8zfoZM0OtwnR1c8KcHdoaFfP96M+iDryc+Z/s69Pkbxg5w8r28Og1CF0PwQtNqFGrxGpagcEPTPNt+03Nd+GeFn9F+eyZx37ez6vhEISCyK3QizSir9Y8Ta/a8yrZe7CxJ4YxgHfJNP7kRGBF5z+BlZBw=
   on:
     tags: true
     repo: tierratelematics/play_cassandra
