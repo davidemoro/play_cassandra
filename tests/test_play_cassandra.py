@@ -19,17 +19,19 @@ def test_provider():
                 }
             },
         'keyspace': 'users',
-        'query': '',
+        'query': 'SELECT * from users;',
         }
     with mock.patch(
             'play_cassandra.providers.Cluster') as cluster:
         with mock.patch(
                 'play_cassandra.providers.auth') as auth:
             provider.command_execute(command)
-            assert cluster.assert_called_once_with(auth_provider=auth.PlainTextAuthProvider.return_value) is None
+            assert cluster.assert_called_once_with(
+                auth_provider=auth.PlainTextAuthProvider.return_value) is None
             assert auth.PlainTextAuthProvider.assert_called_once_with(
                 username=command['connection']['auth_provider']['username'],
-                 password=command['connection']['auth_provider']['password']) is None
+                password=command['connection']['auth_provider']['password']
+            ) is None
             connect = cluster.return_value.__enter__.return_value.connect
             assert connect.assert_called_once_with(command['keyspace']) is None
             execute = connect.return_value.__enter__.return_value.execute
