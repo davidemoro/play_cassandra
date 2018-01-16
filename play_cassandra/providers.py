@@ -1,3 +1,4 @@
+import logging
 from copy import deepcopy
 from cassandra.cluster import Cluster
 from cassandra import auth
@@ -11,6 +12,10 @@ class CassandraProvider(BaseProvider):
         'PlainTextAuthenticator',
         'SaslAuthProvider',
     )
+
+    def __init__(self, engine):
+        super(CassandraProvider, self).__init__(engine)
+        self.logger = logging.getLogger()
 
     def _setup_auth_provider(self, cmd):
         connection = cmd['connection']
