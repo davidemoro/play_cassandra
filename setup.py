@@ -24,6 +24,7 @@ test_requirements = [
     'pytest',
     'pytest-cov',
     'mock',
+    'play-python',
 ]
 
 setup(
