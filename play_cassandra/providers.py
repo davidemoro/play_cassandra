@@ -1,3 +1,4 @@
+from copy import deepcopy
 from cassandra.cluster import Cluster
 from cassandra import auth
 from pytest_play.providers import BaseProvider
@@ -20,9 +21,64 @@ class CassandraProvider(BaseProvider):
         connection['auth_provider'] = auth_provider(**auth_provider_conf)
 
     def command_execute(self, command, **kwargs):
-        cmd = command.copy()
-        self._setup_auth_provider(cmd)
-        connection = command['connection']
-        with Cluster(**connection) as cluster:
-            with cluster.connect(cmd['keyspace']) as session:
-                session.execute(cmd['query'])
+        if self._condition(command):
+            cmd = deepcopy(command)
+            self._setup_auth_provider(cmd)
+            connection = cmd['connection']
+            with Cluster(**connection) as cluster:
+                with cluster.connect(cmd['keyspace']) as session:
+                    results = session.execute(cmd['query'])
+                try:
+                    self._make_variable(command, results=results)
+                    self._make_assertion(command, results=results)
+                except Exception as e:
+                    self.logger.exception(
+                        'Exception for command %r',
+                        command,
+                        e)
+                    raise e
+
+    def _make_assertion(self, command, **kwargs):
+        """ Make an assertion based on python
+            expression against kwargs
+        """
+        assertion = command.get('assertion', None)
+        if assertion:
+            self.engine.execute_command(
+                {'provider': 'python',
+                 'type': 'assert',
+                 'expression': assertion
+                 },
+                **kwargs,
+            )
+
+    def _make_variable(self, command, **kwargs):
+        """ Make a variable based on python
+            expression against kwargs
+        """
+        expression = command.get('variable_expression', None)
+        if expression:
+            self.engine.execute_command(
+                {'provider': 'python',
+                 'type': 'store_variable',
+                 'name': command['variable'],
+                 'expression': expression
+                 },
+                **kwargs,
+            )
+
+    def _condition(self, command):
+        """ Execute a command condition
+        """
+        return_value = False
+        condition = command.get('condition', None)
+        if condition:
+            return_value = self.engine.execute_command(
+                {'provider': 'python',
+                 'type': 'exec',
+                 'expression': condition
+                 }
+            )
+        else:
+            return_value = True
+        return return_value
