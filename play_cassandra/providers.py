@@ -25,13 +25,13 @@ class CassandraProvider(BaseProvider):
             auth_provider = getattr(auth, auth_type)
         connection['auth_provider'] = auth_provider(**auth_provider_conf)
 
-    def _get_session(self, connection, keyspace):
+    def _get_session(self, command, connection, keyspace):
         """ Get cached session """
         self.engine.teardown = {}  # TODO to be implemented in pytest-play
         self.engine.teardown['play_cassandra'] = self._teardown
         if not hasattr(self.engine, 'play_cassandra'):
             self.engine.play_cassandra = {}
-        connection_key = repr(connection)
+        connection_key = repr(command['connection'])
         if connection_key not in self.engine.play_cassandra:
             self.engine.play_cassandra[connection_key] = dict(
                 cluster=Cluster(**connection),
@@ -61,7 +61,7 @@ class CassandraProvider(BaseProvider):
         cmd = deepcopy(command)
         self._setup_auth_provider(cmd)
         connection = cmd['connection']
-        session = self._get_session(connection, cmd['keyspace'])
+        session = self._get_session(command, connection, cmd['keyspace'])
         results = session.execute(cmd['query'])
         try:
             self._make_variable(command, results=results)
