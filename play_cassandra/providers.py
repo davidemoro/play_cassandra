@@ -31,21 +31,22 @@ class CassandraProvider(BaseProvider):
 
         if not hasattr(self.engine, 'play_cassandra'):
             self.engine.play_cassandra = {}
+        play_cassandra = self.engine.play_cassandra
         connection_key = repr(command['connection'])
-        if connection_key not in self.engine.play_cassandra:
-            self.engine.play_cassandra[connection_key] = dict(
+        if connection_key not in play_cassandra:
+            play_cassandra[connection_key] = dict(
                 cluster=Cluster(**connection),
                 sessions={},
             )
-        if keyspace not in self.engine.play_cassandra[connection_key]:
-            cluster = self.engine.play_cassandra[connection_key]['cluster']
-            self.engine.play_cassandra[connection_key][keyspace] = \
+        if keyspace not in play_cassandra[connection_key]['sessions']:
+            cluster = play_cassandra[connection_key]['cluster']
+            play_cassandra[connection_key]['sessions'][keyspace] = \
                 cluster.connect(keyspace)
-        return self.engine.play_cassandra[connection_key][keyspace]
+        return play_cassandra[connection_key]['sessions'][keyspace]
 
     def _teardown(self):
         """ Shutdown all cluster and session open connections """
-        if not hasattr(self.engine, 'play_cassandra'):
+        if hasattr(self.engine, 'play_cassandra'):
             for cluster_dict in self.engine.play_cassandra.values():
                 for session in cluster_dict['sessions'].values():
                     try:
