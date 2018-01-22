@@ -27,9 +27,8 @@ class CassandraProvider(BaseProvider):
 
     def _get_session(self, command, connection, keyspace):
         """ Get cached session """
-        self.engine.teardown = []  # TODO to be implemented in pytest-play
-        if self._teardown not in self.engine.teardown:
-            self.engine.teardown['play_cassandra'] = self._teardown
+        self.engine.register_teardown_callback(self._teardown)
+
         if not hasattr(self.engine, 'play_cassandra'):
             self.engine.play_cassandra = {}
         connection_key = repr(command['connection'])
