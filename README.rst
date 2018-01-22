@@ -26,7 +26,7 @@ More info and examples on:
 
 
 Features
-========
+--------
 
 This project defines a new pytest-play_ command:
 
@@ -48,14 +48,14 @@ This project defines a new pytest-play_ command:
     }
 
 Twitter
-=======
+-------
 
 ``pytest-play`` tweets happens here:
 
 * `@davidemoro`_
 
 Credits
-=======
+-------
 
 This package was created with Cookiecutter_ and the cookiecutter-play-plugin_ (based on `audreyr/cookiecutter-pypackage`_ project template).
 
