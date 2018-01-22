@@ -11,11 +11,11 @@ def variables():
     return {'skins': {'skin1': {'base_url': 'http://', 'credentials': {}}}}
 
 
-def test_provider():
+def test_provider(play_json):
     from play_cassandra import providers
     import mock
-    provider = providers.CassandraProvider(None)
-    assert provider.engine is None
+    provider = providers.CassandraProvider(play_json)
+    assert provider.engine is play_json
     command = {
         'provider': 'play_cassandra',
         'type': 'execute',
@@ -39,9 +39,9 @@ def test_provider():
                 username=command['connection']['auth_provider']['username'],
                 password=command['connection']['auth_provider']['password']
             ) is None
-            connect = cluster.return_value.__enter__.return_value.connect
+            connect = cluster.return_value.connect
             assert connect.assert_called_once_with(command['keyspace']) is None
-            execute = connect.return_value.__enter__.return_value.execute
+            execute = connect.return_value.execute
             assert execute.assert_called_once_with(command['query']) is None
 
 
@@ -74,9 +74,9 @@ def test_provider_assertion_true(play_json):
                 username=command['connection']['auth_provider']['username'],
                 password=command['connection']['auth_provider']['password']
             ) is None
-            connect = cluster.return_value.__enter__.return_value.connect
+            connect = cluster.return_value.connect
             assert connect.assert_called_once_with(command['keyspace']) is None
-            execute = connect.return_value.__enter__.return_value.execute
+            execute = connect.return_value.execute
             assert execute.assert_called_once_with(command['query']) is None
 
 
@@ -110,9 +110,9 @@ def test_provider_assertion_false(play_json):
                 username=command['connection']['auth_provider']['username'],
                 password=command['connection']['auth_provider']['password']
             ) is None
-            connect = cluster.return_value.__enter__.return_value.connect
+            connect = cluster.return_value.connect
             assert connect.assert_called_once_with(command['keyspace']) is None
-            execute = connect.return_value.__enter__.return_value.execute
+            execute = connect.return_value.execute
             assert execute.assert_called_once_with(command['query']) is None
 
 
@@ -147,9 +147,9 @@ def test_provider_variable(play_json):
                 username=command['connection']['auth_provider']['username'],
                 password=command['connection']['auth_provider']['password']
             ) is None
-            connect = cluster.return_value.__enter__.return_value.connect
+            connect = cluster.return_value.connect
             assert connect.assert_called_once_with(command['keyspace']) is None
-            execute = connect.return_value.__enter__.return_value.execute
+            execute = connect.return_value.execute
             assert execute.assert_called_once_with(command['query']) is None
             assert 'user' in play_json.variables
             assert play_json.variables['user'] is execute.return_value[0]
@@ -188,9 +188,9 @@ def test_provider_variable_assertion_false(play_json):
                 username=command['connection']['auth_provider']['username'],
                 password=command['connection']['auth_provider']['password']
             ) is None
-            connect = cluster.return_value.__enter__.return_value.connect
+            connect = cluster.return_value.connect
             assert connect.assert_called_once_with(command['keyspace']) is None
-            execute = connect.return_value.__enter__.return_value.execute
+            execute = connect.return_value.execute
             assert execute.assert_called_once_with(command['query']) is None
             assert 'user' in play_json.variables
             assert play_json.variables['user'] is execute.return_value[0]
