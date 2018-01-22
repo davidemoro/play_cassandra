@@ -26,22 +26,21 @@ class CassandraProvider(BaseProvider):
         connection['auth_provider'] = auth_provider(**auth_provider_conf)
 
     def command_execute(self, command, **kwargs):
-        if self._condition(command):
-            cmd = deepcopy(command)
-            self._setup_auth_provider(cmd)
-            connection = cmd['connection']
-            with Cluster(**connection) as cluster:
-                with cluster.connect(cmd['keyspace']) as session:
-                    results = session.execute(cmd['query'])
-                try:
-                    self._make_variable(command, results=results)
-                    self._make_assertion(command, results=results)
-                except Exception as e:
-                    self.logger.exception(
-                        'Exception for command %r',
-                        command,
-                        e)
-                    raise e
+        cmd = deepcopy(command)
+        self._setup_auth_provider(cmd)
+        connection = cmd['connection']
+        with Cluster(**connection) as cluster:
+            with cluster.connect(cmd['keyspace']) as session:
+                results = session.execute(cmd['query'])
+            try:
+                self._make_variable(command, results=results)
+                self._make_assertion(command, results=results)
+            except Exception as e:
+                self.logger.exception(
+                    'Exception for command %r',
+                    command,
+                    e)
+                raise e
 
     def _make_assertion(self, command, **kwargs):
         """ Make an assertion based on python
@@ -71,19 +70,3 @@ class CassandraProvider(BaseProvider):
                  },
                 **kwargs,
             )
-
-    def _condition(self, command):
-        """ Execute a command condition
-        """
-        return_value = False
-        condition = command.get('condition', None)
-        if condition:
-            return_value = self.engine.execute_command(
-                {'provider': 'python',
-                 'type': 'exec',
-                 'expression': condition
-                 }
-            )
-        else:
-            return_value = True
-        return return_value
