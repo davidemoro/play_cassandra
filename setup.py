@@ -28,7 +28,7 @@ test_requirements = [
 
 setup(
     name='play_cassandra',
-    version='0.0.2.dev0',
+    version='0.0.2',
     description="pytest-play support for Cassandra expressions and assertions",
     long_description=readme + '\n\n' + history,
     author="Davide Moro",
