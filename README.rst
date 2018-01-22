@@ -26,7 +26,7 @@ More info and examples on:
 
 
 Features
-========
+--------
 
 This project defines a new pytest-play_ command:
 
@@ -42,21 +42,20 @@ This project defines a new pytest-play_ command:
      },
      'keyspace': 'users',
      'query': 'SELECT name, age, email FROM users WHERE user_id=15',
-     'condition': '1 > 0',
      'variable': 'user1_age',
      'variable_expression': 'results[0].age',
      'assertion': 'results[0].name == "User 1"'
     }
 
 Twitter
-=======
+-------
 
 ``pytest-play`` tweets happens here:
 
 * `@davidemoro`_
 
 Credits
-=======
+-------
 
 This package was created with Cookiecutter_ and the cookiecutter-play-plugin_ (based on `audreyr/cookiecutter-pypackage`_ project template).
 

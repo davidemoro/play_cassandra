@@ -12,7 +12,7 @@ with open('CHANGES.rst') as history_file:
     history = history_file.read()
 
 requirements = [
-    'pytest-play>=1.0.0',
+    'pytest-play>=1.2.0',
     'cassandra-driver',
 ]
 
@@ -24,12 +24,11 @@ test_requirements = [
     'pytest',
     'pytest-cov',
     'mock',
-    'play-python',
 ]
 
 setup(
     name='play_cassandra',
-    version='0.0.2.dev0',
+    version='0.0.3.dev0',
     description="pytest-play support for Cassandra expressions and assertions",
     long_description=readme + '\n\n' + history,
     author="Davide Moro",
