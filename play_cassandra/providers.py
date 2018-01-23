@@ -25,22 +25,54 @@ class CassandraProvider(BaseProvider):
             auth_provider = getattr(auth, auth_type)
         connection['auth_provider'] = auth_provider(**auth_provider_conf)
 
+    def _get_session(self, command, connection, keyspace):
+        """ Get cached session """
+        self.engine.register_teardown_callback(self._teardown)
+
+        if not hasattr(self.engine, 'play_cassandra'):
+            self.engine.play_cassandra = {}
+        play_cassandra = self.engine.play_cassandra
+        connection_key = repr(command['connection'])
+        if connection_key not in play_cassandra:
+            play_cassandra[connection_key] = dict(
+                cluster=Cluster(**connection),
+                sessions={},
+            )
+        if keyspace not in play_cassandra[connection_key]['sessions']:
+            cluster = play_cassandra[connection_key]['cluster']
+            play_cassandra[connection_key]['sessions'][keyspace] = \
+                cluster.connect(keyspace)
+        return play_cassandra[connection_key]['sessions'][keyspace]
+
+    def _teardown(self):
+        """ Shutdown all cluster and session open connections """
+        if hasattr(self.engine, 'play_cassandra'):
+            for cluster_dict in self.engine.play_cassandra.values():
+                for session in cluster_dict['sessions'].values():
+                    try:
+                        session.shutdown()
+                    except Exception:
+                        pass
+                try:
+                    cluster_dict['cluster'].shutdown()
+                except Exception:
+                    pass
+
     def command_execute(self, command, **kwargs):
         cmd = deepcopy(command)
         self._setup_auth_provider(cmd)
         connection = cmd['connection']
-        with Cluster(**connection) as cluster:
-            with cluster.connect(cmd['keyspace']) as session:
-                results = session.execute(cmd['query'])
-            try:
-                self._make_variable(command, results=results)
-                self._make_assertion(command, results=results)
-            except Exception as e:
-                self.logger.exception(
-                    'Exception for command %r',
-                    command,
-                    e)
-                raise e
+        session = self._get_session(command, connection, cmd['keyspace'])
+        results = session.execute(cmd['query'])
+        try:
+            self._make_variable(command, results=results)
+            self._make_assertion(command, results=results)
+        except Exception as e:
+            self.logger.exception(
+                'Exception for command %r',
+                command,
+                e)
+            raise e
 
     def _make_assertion(self, command, **kwargs):
         """ Make an assertion based on python
