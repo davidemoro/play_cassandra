@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-0.0.3 (unreleased)
+0.0.3 (2018-01-23)
 ------------------
 
 - speed up cassandra connections with cache
