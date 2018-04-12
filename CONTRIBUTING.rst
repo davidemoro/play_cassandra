@@ -15,7 +15,7 @@ Types of Contributions
 Report Bugs
 ~~~~~~~~~~~
 
-Report bugs at https://github.com/tierratelematics/play_cassandra/issues.
+Report bugs at https://github.com/davidemoro/play_cassandra/issues.
 
 If you are reporting a bug, please include:
 
@@ -45,7 +45,7 @@ articles, and such.
 Submit Feedback
 ~~~~~~~~~~~~~~~
 
-The best way to send feedback is to file an issue at https://github.com/tierratelematics/play_cassandra/issues.
+The best way to send feedback is to file an issue at https://github.com/davidemoro/play_cassandra/issues.
 
 If you are proposing a feature:
 
@@ -102,7 +102,7 @@ Before you submit a pull request, check that it meets these guidelines:
    your new functionality into a function with a docstring, and add the
    feature to the list in README.rst.
 3. The pull request should work for Python 2.6, 2.7, 3.3, 3.4 and 3.5, and for PyPy. Check
-   https://travis-ci.org/tierratelematics/play_cassandra/pull_requests
+   https://travis-ci.org/davidemoro/play_cassandra/pull_requests
    and make sure that the tests pass for all supported Python versions.
 
 Tips

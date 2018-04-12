@@ -33,7 +33,7 @@ setup(
     long_description=readme + '\n\n' + history,
     author="Davide Moro",
     author_email='davide.moro@gmail.com',
-    url='https://github.com/tierratelematics/play_cassandra',
+    url='https://github.com/davidemoro/play_cassandra',
     packages=find_packages(include=['play_cassandra']),
     entry_points={
         'playcommands': [

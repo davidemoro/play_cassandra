@@ -6,15 +6,15 @@ play cassandra
 .. image:: https://img.shields.io/pypi/v/play_cassandra.svg
         :target: https://pypi.python.org/pypi/play_cassandra
 
-.. image:: https://img.shields.io/travis/tierratelematics/play_cassandra.svg
-        :target: https://travis-ci.org/tierratelematics/play_cassandra
+.. image:: https://img.shields.io/travis/davidemoro/play_cassandra.svg
+        :target: https://travis-ci.org/davidemoro/play_cassandra
 
 .. image:: https://readthedocs.org/projects/play-cassandra/badge/?version=latest
         :target: https://play-cassandra.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
 
-.. image:: https://codecov.io/gh/tierratelematics/play_cassandra/branch/develop/graph/badge.svg
-        :target: https://codecov.io/gh/tierratelematics/play_cassandra
+.. image:: https://codecov.io/gh/davidemoro/play_cassandra/branch/develop/graph/badge.svg
+        :target: https://codecov.io/gh/davidemoro/play_cassandra
 
 
 pytest-play support for Cassandra expressions and assertions
@@ -61,7 +61,7 @@ This package was created with Cookiecutter_ and the cookiecutter-play-plugin_ (b
 
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
 .. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
-.. _`cookiecutter-play-plugin`: https://github.com/tierratelematics/cookiecutter-play-plugin
-.. _pytest-play: https://github.com/tierratelematics/pytest-play
-.. _cookiecutter-qa: https://github.com/tierratelematics/cookiecutter-qa
+.. _`cookiecutter-play-plugin`: https://github.com/davidemoro/cookiecutter-play-plugin
+.. _pytest-play: https://github.com/pytest-dev/pytest-play
+.. _cookiecutter-qa: https://github.com/davidemoro/cookiecutter-qa
 .. _`@davidemoro`: https://twitter.com/davidemoro
