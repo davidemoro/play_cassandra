@@ -6,8 +6,8 @@ play cassandra
 .. image:: https://img.shields.io/pypi/v/play_cassandra.svg
         :target: https://pypi.python.org/pypi/play_cassandra
 
-.. image:: https://img.shields.io/travis/davidemoro/play_cassandra.svg
-        :target: https://travis-ci.org/davidemoro/play_cassandra
+.. image:: https://travis-ci.org/davidemoro/play_cassandra.svg?branch=develop
+       :target: https://travis-ci.org/davidemoro/play_cassandra
 
 .. image:: https://readthedocs.org/projects/play-cassandra/badge/?version=latest
         :target: https://play-cassandra.readthedocs.io/en/latest/?badge=latest
