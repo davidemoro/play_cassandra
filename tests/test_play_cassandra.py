@@ -11,11 +11,11 @@ def variables():
     return {'skins': {'skin1': {'base_url': 'http://', 'credentials': {}}}}
 
 
-def test_provider(play_json):
+def test_provider(play):
     from play_cassandra import providers
     import mock
-    provider = providers.CassandraProvider(play_json)
-    assert provider.engine is play_json
+    provider = providers.CassandraProvider(play)
+    assert provider.engine is play
     command = {
         'provider': 'play_cassandra',
         'type': 'execute',
@@ -45,11 +45,11 @@ def test_provider(play_json):
             assert execute.assert_called_once_with(command['query']) is None
 
 
-def test_provider_assertion_true(play_json):
+def test_provider_assertion_true(play):
     from play_cassandra import providers
     import mock
-    provider = providers.CassandraProvider(play_json)
-    assert provider.engine is play_json
+    provider = providers.CassandraProvider(play)
+    assert provider.engine is play
     command = {
         'provider': 'play_cassandra',
         'type': 'execute',
@@ -80,11 +80,11 @@ def test_provider_assertion_true(play_json):
             assert execute.assert_called_once_with(command['query']) is None
 
 
-def test_provider_assertion_false(play_json):
+def test_provider_assertion_false(play):
     from play_cassandra import providers
     import mock
-    provider = providers.CassandraProvider(play_json)
-    assert provider.engine is play_json
+    provider = providers.CassandraProvider(play)
+    assert provider.engine is play
     command = {
         'provider': 'play_cassandra',
         'type': 'execute',
@@ -116,11 +116,11 @@ def test_provider_assertion_false(play_json):
             assert execute.assert_called_once_with(command['query']) is None
 
 
-def test_provider_variable(play_json):
+def test_provider_variable(play):
     from play_cassandra import providers
     import mock
-    provider = providers.CassandraProvider(play_json)
-    assert provider.engine is play_json
+    provider = providers.CassandraProvider(play)
+    assert provider.engine is play
     command = {
         'provider': 'play_cassandra',
         'type': 'execute',
@@ -139,7 +139,7 @@ def test_provider_variable(play_json):
             'play_cassandra.providers.Cluster') as cluster:
         with mock.patch(
                 'play_cassandra.providers.auth') as auth:
-            assert 'user' not in play_json.variables
+            assert 'user' not in play.variables
             provider.command_execute(command)
             assert cluster.assert_called_once_with(
                 auth_provider=auth.PlainTextAuthProvider.return_value) is None
@@ -151,15 +151,15 @@ def test_provider_variable(play_json):
             assert connect.assert_called_once_with(command['keyspace']) is None
             execute = connect.return_value.execute
             assert execute.assert_called_once_with(command['query']) is None
-            assert 'user' in play_json.variables
-            assert play_json.variables['user'] is execute.return_value[0]
+            assert 'user' in play.variables
+            assert play.variables['user'] is execute.return_value[0]
 
 
-def test_provider_variable_assertion_false(play_json):
+def test_provider_variable_assertion_false(play):
     from play_cassandra import providers
     import mock
-    provider = providers.CassandraProvider(play_json)
-    assert provider.engine is play_json
+    provider = providers.CassandraProvider(play)
+    assert provider.engine is play
     command = {
         'provider': 'play_cassandra',
         'type': 'execute',
@@ -179,7 +179,7 @@ def test_provider_variable_assertion_false(play_json):
             'play_cassandra.providers.Cluster') as cluster:
         with mock.patch(
                 'play_cassandra.providers.auth') as auth:
-            assert 'user' not in play_json.variables
+            assert 'user' not in play.variables
             with pytest.raises(AssertionError):
                 provider.command_execute(command)
             assert cluster.assert_called_once_with(
@@ -192,15 +192,15 @@ def test_provider_variable_assertion_false(play_json):
             assert connect.assert_called_once_with(command['keyspace']) is None
             execute = connect.return_value.execute
             assert execute.assert_called_once_with(command['query']) is None
-            assert 'user' in play_json.variables
-            assert play_json.variables['user'] is execute.return_value[0]
+            assert 'user' in play.variables
+            assert play.variables['user'] is execute.return_value[0]
 
 
-def test_shutdown(play_json):
+def test_shutdown(play):
     from play_cassandra import providers
     import mock
-    provider = providers.CassandraProvider(play_json)
-    assert provider.engine is play_json
+    provider = providers.CassandraProvider(play)
+    assert provider.engine is play
     command = {
         'provider': 'play_cassandra',
         'type': 'execute',
@@ -229,7 +229,7 @@ def test_shutdown(play_json):
             execute = connect.return_value.execute
             assert execute.assert_called_once_with(command['query']) is None
 
-            play_json.teardown()
+            play.teardown()
             assert cluster.return_value.shutdown.assert_called_once_with(
                 ) is None
             assert connect.return_value.shutdown.assert_called_once_with(
